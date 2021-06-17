@@ -1,0 +1,40 @@
+---
+- hosts: all
+  vars:
+    build_dir: /root/docker-build
+
+  gather_facts: no
+  tasks:
+    - name: Pull default Docker image
+    docker_image:
+      name: nginx
+      source: pull
+
+    - name: create build directory
+      file:
+        path: "{{ build_dir }}"
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+    - name: copy Dockerfile
+      copy:
+        src: ../Dockerfile
+        dest: "{{ build_dir }}/Dockerfile"
+        owner: root
+        group: root
+        mode: '0644'
+    - name: copy Dockerfile
+      copy:
+        src: ../public/
+        dest: ""
+        owner: root
+        group: root
+        mode: '0644'
+    - name: build container image
+      docker_image:
+        name: hugo
+        build:
+          path: "{{ build_dir }}"
+          source: build
+        state: present
