@@ -12,4 +12,4 @@ ADD ./ ./
 # RUN /bootstrap.sh
 
 # Self explanitory
-EXPOSE 8070
+EXPOSE 8080
