@@ -1,0 +1,16 @@
+---
+- hosts: all
+  gather_facts: no
+  vars:
+    create_containers: 4
+    container_name: hugo
+    container_image: hugo-image
+
+    tasks:
+    - name: Create default containers
+      docker_container:
+        name: "{{ container_name }}{{ item }}"
+        image: "{{ container_image }}"
+        command: "{{ container_command }}"
+        state: present
+      with_sequence: count={{ create_containers }}
